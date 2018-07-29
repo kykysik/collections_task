@@ -1,50 +1,50 @@
 package task2;
 
-import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.Collection;
 
-public class MainArrayList extends ArrayList {
-/*    private final int INIT_SIZE = 16;
-    private final int CUT_RATE = 4;
-    private Object[] array = new Object[INIT_SIZE];
-    private int pointer = 0;
-    */
+public class MainArrayList<E> extends AbstractList<E> {
+
+    private E[] values = (E[]) new Object[0];
+
+
+
 
     public static void main(String[] args) {
-        MainArrayList list = new MainArrayList();
+        MainArrayList<Integer> list = new MainArrayList();
         list.add(3);
         list.add(41);
         list.add(40);
         list.add(45);
         System.out.println(list);
-        list.remove(3);
-        System.out.println(list);
     }
 
     @Override
-    public boolean add(Object o) {
-        return super.add(o);
+    public int size() {
+        return values.length;
     }
 
-  /*  public Object Myadd(Object o) {
-        int arrLeng = array.length;
-        if(pointer == arrLeng-1){
-            resize(arrLeng+((arrLeng/2)+1));
+    @Override
+    public boolean add(E o) {
+        try{
+            E[] temp = values;
+            values = (E[]) new Object[temp.length + 1];
+            System.arraycopy(temp, 0, values, 0, temp.length);
+            values[values.length-1] = o;
+            return true;
+        }catch (ClassCastException e) {
+            e.printStackTrace();
         }
-        array[pointer++] = o;
+        return false;
     }
 
-
-    public void resize(int newLength){
-        Object[] newArr = new Object[newLength];
-        System.arraycopy(array, 0, newArr,0, pointer);
-        array = newArr;
-
-    }*/
+    @Override
+    public E get(int index) {
+        return values[index];
+    }
 
     @Override
     protected void removeRange(int fromIndex, int toIndex) {
-
     }
 
     @Override
@@ -53,8 +53,8 @@ public class MainArrayList extends ArrayList {
     }
 
     @Override
-    public Object remove(int index) {
-        return -1;
+    public E remove(int index) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
